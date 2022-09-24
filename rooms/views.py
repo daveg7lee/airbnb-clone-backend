@@ -10,4 +10,17 @@ def see_all_rooms(request):
 
 
 def see_one_room(request, pk):
-    return HttpResponse(f"See one room with id:{pk}")
+    try:
+        room = Room.objects.get(pk=pk)
+
+        return render(
+            request,
+            "room_detail.html",
+            {"room": room},
+        )
+    except Room.DoesNotExist:
+        return render(
+            request,
+            "room_detail.html",
+            {"not_found": True},
+        )
