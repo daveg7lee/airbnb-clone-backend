@@ -1,2 +1,7 @@
-<h1>Hi All Rooms here!</h1>
-<p>{{title}}</p>
+<h1>{{title}}</h1>
+
+<ol>
+{% for room in rooms %}
+    <li>{{room.name}}</li>
+{% endfor %}
+</ol>

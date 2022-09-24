@@ -6,7 +6,7 @@ from .models import Room
 def see_all_rooms(request):
     rooms = Room.objects.all()
 
-    return render(request, "all_rooms.html", {"rooms": rooms, "title": "Hello!"})
+    return render(request, "all_rooms.html", {"rooms": rooms, "title": "All Rooms"})
 
 
 def see_one_room(request, pk):
