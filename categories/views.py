@@ -4,14 +4,22 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 
-@api_view()
+@api_view(["GET", "POST"])
 def categories(request):
-    categories = Category.objects.all()
-    serializer = CategorySerializer(categories, many=True)
 
-    return Response(
-        {
-            "success": True,
-            "categories": serializer.data,
-        },
-    )
+    if request.method == "GET":
+        categories = Category.objects.all()
+        serializer = CategorySerializer(categories, many=True)
+
+        return Response(serializer.data)
+
+    elif request.method == "POST":
+        return Response({"created": True})
+
+
+@api_view()
+def category(request, pk):
+    category = Category.objects.get(pk=pk)
+    serializer = CategorySerializer(category)
+
+    return Response(serializer.data)
