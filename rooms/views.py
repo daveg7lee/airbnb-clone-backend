@@ -160,7 +160,12 @@ class RoomDetail(APIView):
                             amenity = Amenity.objects.get(pk=amenity_pk)
                             room.amenities.add(amenity)
 
-                    return Response(RoomDetailSerializer(room).data)
+                    return Response(
+                        RoomDetailSerializer(
+                            room,
+                            context={"request": request},
+                        ).data
+                    )
             except Exception as e:
                 print(e)
                 raise ParseError("amenity not found")
@@ -199,6 +204,29 @@ class RoomReviews(APIView):
         room = self.get_object(pk)
         serializer = ReviewSerializer(
             room.reviews.all()[start:end],
+            many=True,
+        )
+        return Response(serializer.data)
+
+
+class RoomAmenities(APIView):
+    def get_object(self, pk):
+        try:
+            return Room.objects.get(pk=pk)
+        except:
+            raise NotFound
+
+    def get(self, request, pk):
+        try:
+            page = int(request.query_params.get("page", 1))
+        except ValueError:
+            page = 1
+        page_size = 5
+        start = (page - 1) * page_size
+        end = start + page_size
+        room = self.get_object(pk)
+        serializer = AmenitySerializer(
+            room.amenities.all()[start:end],
             many=True,
         )
         return Response(serializer.data)
