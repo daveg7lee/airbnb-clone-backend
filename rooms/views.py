@@ -207,7 +207,7 @@ class RoomReviews(APIView):
         end = start + page_size
         room = self.get_object(pk)
         serializer = ReviewSerializer(
-            room.reviews.all().order_by("created_at")[start:end],
+            room.reviews.all()[start:end],
             many=True,
         )
         return Response(serializer.data)
