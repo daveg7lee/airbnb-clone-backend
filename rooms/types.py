@@ -1,10 +1,12 @@
 from django.conf import settings
 import strawberry
+from strawberry.types import Info
 from strawberry import auto
 import typing
 from . import models
 from users.types import UserType
 from reviews.types import ReviewType
+from wishlists.models import Wishlist
 
 
 @strawberry.django.type(models.Room)
@@ -24,3 +26,14 @@ class RoomType:
     @strawberry.field
     def rating(self) -> str:
         return self.rating()
+
+    @strawberry.field
+    def is_owner(self, info: Info) -> bool:
+        return self.owner == info.context.request.user
+
+    @strawberry.field
+    def is_liked(self, info: Info) -> bool:
+        return Wishlist.objects.filter(
+            user=info.context.request.user,
+            rooms__pk=self.pk,
+        ).exists()
