@@ -115,7 +115,10 @@ class Rooms(APIView):
                 raise ParseError("amenity not found")
 
         else:
-            return Response(serializer.errors)
+            return Response(
+                serializer.errors,
+                status=HTTP_400_BAD_REQUEST,
+            )
 
 
 class RoomDetail(APIView):
