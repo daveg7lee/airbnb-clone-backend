@@ -50,6 +50,9 @@ class Users(APIView):
             user = serializer.save()
             user.set_password(password)
             user.save()
+
+            login(request, user)
+
             serializer = serializers.PrivateUserSerializer(user)
             return Response(serializer.data)
         else:
