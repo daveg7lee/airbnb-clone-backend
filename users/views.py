@@ -105,7 +105,7 @@ class LogIn(APIView):
             login(request, user)
             return Response({"ok": "Welcome!"})
         else:
-            return Response({"error": "wrong password"})
+            return Response({"error": "wrong password"}, status=status.HTTP_403_FORBIDDEN)
 
 
 class LogOut(APIView):
