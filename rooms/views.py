@@ -262,7 +262,7 @@ class RoomAmenities(APIView):
 
 class RoomPhotos(APIView):
 
-    authentication_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_object(self, pk):
         try:
