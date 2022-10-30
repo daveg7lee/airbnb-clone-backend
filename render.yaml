@@ -3,13 +3,11 @@ databases:
     databaseName: airbnbclone
     user: airbnbclone
     region: singapore
-    plan: free
 
 services:
   - type: web
     name: airbnbclone
     env: python
-    plan: free
     region: singapore
     buildCommand: "./build.sh"
     startCommand: "gunicorn config.wsgi:application"
